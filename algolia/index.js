@@ -12,7 +12,7 @@ const records = []
 foo ()
 
 const algoliasearch = require('algoliasearch');
-const client = algoliasearch('ST2854US61', 'a2479402c21b618e6fd7545cf6d32441');
+const client = algoliasearch(process.env.DOC_SEARCH_APPID,process.env.DOC_SEARCH_APIKEY)
 const index = client.initIndex('chases');
 
 async function foo () {
