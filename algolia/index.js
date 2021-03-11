@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-const serviceAccount = require('./chaseapp-8459b-10b0387e114a.json');
+const serviceAccount = require('./chaseapp.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -12,7 +12,9 @@ const records = []
 foo ()
 
 const algoliasearch = require('algoliasearch');
-const client = algoliasearch(process.env.DOC_SEARCH_APPID,process.env.DOC_SEARCH_APIKEY)
+const client = algoliasearch('ST2854US61', 'DONTSAVE')
+console.log(client)
+
 const index = client.initIndex('chases');
 
 async function foo () {
@@ -20,19 +22,22 @@ async function foo () {
   snapshot.forEach((doc) => {
     const childKey = doc.id
     const childData = doc.data()
-
-    childData.objectID = childKey
-    records.push(childData)
+    if (doc.id === 'dd95ff20-8130-11eb-b54b-a8f8cdc8b867') {
+      console.log(childData)
+      console.log(doc.id)
+      childData.objectID = doc.id
+      records.push(childData)
+    }
   })
 
   index.setSettings({
-    'customRanking': ['desc(votes)'],
+    'customRanking': ['desc(Votes)'],
     searchableAttributes: [
-      'createdAt',
-      'desc',
-      'name',
-      'networks',
-      'wheels',
+      'CreatedAt',
+      'Desc',
+      'Name',
+      'Networks',
+      'Wheels',
     ]
   }).then(() => {
     console.log('Set custom settings')
